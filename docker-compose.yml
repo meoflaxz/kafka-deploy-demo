@@ -1,28 +1,16 @@
-version: '2'
+version: '3'
+
 services:
   zookeeper:
     image: wurstmeister/zookeeper
-    container_name: demo_zookeeper
+    container_name: zookeeper
     ports:
-     - "2181:2181"
-    restart: unless-stopped
-
+      - "2181:2181"
   kafka:
     image: wurstmeister/kafka
-    container_name: demo_kafka
+    container_name: kafka
     ports:
-     - "9092:9092"
-    expose:
-     - "9093"
+      - "9092:9092"
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: 192.168.1.22
+      KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
-      KAFKA_CREATE_TOPICS: "test_topic:1:1"
-      KAFKA_LOG_RETENTION_HOURS: 1
-      KAFKA_LOG_RETENTION_BYTES: 4073741824
-      KAFKA_LOG_SEGMENT_BYTES: 1073741824
-      KAFKA_RETENTION_CHECK_INTERVAL_MS: 300000
-    volumes:
-     - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
